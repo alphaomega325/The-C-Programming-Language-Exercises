@@ -22,4 +22,15 @@ int main()
     printf("%3.0f %6.1f\n", fahr, celsius);
     fahr = fahr + step;
   }
+
+  printf("Fahr| Cel | \n");
+  
+  celsius = lower;
+  
+  while(celsius <= upper) {
+    fahr = 1.8 * celsius + 32;
+    printf("%3.0f %6.1f\n", fahr, celsius);
+    celsius = celsius + step;
+    
+  }
 }
