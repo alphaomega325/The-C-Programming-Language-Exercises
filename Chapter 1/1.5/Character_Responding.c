@@ -3,7 +3,13 @@
 int main()
 {
   int c;
+  
+  if(((getchar() != EOF) == 1) || ((getchar() !=EOF) == 0)){
+  
+    while ((c = getchar()) != EOF)
+      putchar(c);
+  }
 
-  while ((c = getchar()) != EOF)
-    putchar(c);
+  putchar(EOF);
+  
 }
