@@ -4,30 +4,34 @@
 
 void self_implemented_getline(char line[], int *len);
 void copy(char to[], char from[]);
-void add_to(char to[], char from[]);
+void remove_trailing_blanks(char s[], int *len);
 
 /* print the longest input line */
 int main(){
 
   int len = 0;               /* current line length */
+  int max;               /* maximum length seens so far */
   char *line;    /* current input line */
   char *longest;      /* longest line saved here */
   int *lenptr = &len;
 
   line = malloc(INT_MAX * sizeof(char));
-  longest = malloc(INT_MAX * sizeof(char *));
-
+  longest = malloc(INT_MAX * sizeof(char));
+  
+  max = 0;
   do{
     self_implemented_getline(line, lenptr);
-    if (len > 40) {
-      add_to(longest, line);
-      
+    if (len > max) {
+      remove_trailing_blanks(line, lenptr);
+      if(len > max){
+	max = len;
+	copy(longest, line);
+      }
     }
   }while(len > 0);
 
-  if (longest[0] != '\0')  /* there was a line */
+  if (max > 0)  /* there was a line */
     printf("%s", longest);
-
 
   return 0;
 
@@ -42,13 +46,8 @@ void self_implemented_getline(char s[], int *len){
   for(i = 0;(c=getchar()) != EOF && c != '\n'; ++i){
     s[i] = c;
   }
-  if(c == '\n'){
-    s[i] = '\n';
-    s[++i] = '\0';
-  }
-  else{
-    s[i] = '\0';
-  }
+  
+  s[i] = '\0';
   *len = i;
 
 }
@@ -63,18 +62,15 @@ void copy(char to[], char from[]){
   }
 
 }
-/* add_to: adds characters to 'to' and 'from'; assume to is big enough */
-void add_to(char to[], char from[]){
-  int i = 0;
-  while(to[i] != '\0')
-    i++;
+/* remove_trailing_blanks: removes any spaces or tabs at the end of a string */
+void remove_trailing_blanks(char s[], int *len){
 
-  int j = 0;
-  while(from[j] != '\0'){
-    to[i] = from[j];
-    i++;
-    j++;
+  for(int i = *len - 1; s[i] == ' ' || s[i] == '\t'; i--){
+    s[i] = '\0';
+    *len = *len - 1;
   }
   
+  if(*len == 0){
+    *len = 1;
+  }
 }
-
